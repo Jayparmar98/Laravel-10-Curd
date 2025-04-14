@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = 'Dockerhub-jenkins' // Jenkins credentials ID
         DOCKERHUB_REPO = 'jayparmar98/laravel-10-curd'
-        IMAGE_TAG = '0.1' // You can replace this with a Git SHA or build number if needed
+        IMAGE_TAG = '0.2' // You can replace this with a Git SHA or build number if needed
         FULL_IMAGE = "${DOCKERHUB_REPO}:${IMAGE_TAG}"
         //IMAGE = "laravel-10-App"
     }
