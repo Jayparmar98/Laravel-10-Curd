@@ -5,6 +5,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = 'Dockerhub-jenkins' // Jenkins credentials ID
         DOCKERHUB_REPO = 'jayparmar98/laravel-10-curd'
         IMAGE_TAG = '0.1' // You can replace this with a Git SHA or build number if needed
+        FULL_IMAGE = "${DOCKERHUB_REPO}:${IMAGE_TAG}"
         //IMAGE = "laravel-10-App"
     }
 
@@ -18,28 +19,41 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def fullImageName = "${DOCKERHUB_REPO}:${IMAGE_TAG}"
-                    echo "Building Docker image: ${fullImageName}"
-                    bat "docker build -t ${fullImageName} ."
+                    echo "Building Docker image: ${FULL_IMAGE}"
+                    bat "docker build -t ${FULL_IMAGE} ."
                 }
             }
         }
 
-         stage('Push to Docker Hub') {
+          stage('Push to Docker Hub') {
             steps {
                 script {
-                    def fullImageName = "${DOCKERHUB_REPO}:${IMAGE_TAG}"
-                    
                     echo "Logging into Docker Hub..."
                     withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         bat "echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin"
                     }
 
                     echo "Pushing image to Docker Hub..."
-                    bat "docker push ${fullImageName}"
+                    bat "docker push ${FULL_IMAGE}"
                 }
             }
+        }
+
+          stage('Deploy with Docker Compose') {
+             steps {
+                 script {
+                    //  echo "Pulling updated Docker image..."
+                    //  bat "docker pull ${FULL_IMAGE}"
+
+                    //  echo "Stopping any existing containers..."
+                    //  bat "docker-compose down"
+
+                     echo "Starting containers with updated image..."
+                     bat "docker-compose up -d"
+                 }
+             }
          }
+
     //     stage('Tag and Push to Local Registry') {
     //         steps {
     //             bat 'docker tag %IMAGE%:latest %REGISTRY%/%IMAGE%:latest'
