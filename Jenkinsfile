@@ -15,7 +15,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def imageName = "Laravel-10-app"
+                    def imageName = "laravel-10-app"
                     def imageTag = "1.0"
                     def fullImageName = "${imageName}:${imageTag}"
 
