@@ -12,12 +12,16 @@ pipeline {
             }
         }
 
-    // stage('Build Docker Image') {
-    //         steps {
-    //             bat 'docker buildx build ./docker -t laravel-curd-app:v1.0'
-    //         }
-    //     }
-
+     
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def fullImageName = "${DOCKERHUB_REPO}:${IMAGE_TAG}"
+                    echo "Building Docker image: ${fullImageName}"
+                    bat "docker build -t ${fullImageName} ."
+                }
+            }
+        }
     //     stage('Tag and Push to Local Registry') {
     //         steps {
     //             bat 'docker tag %IMAGE%:latest %REGISTRY%/%IMAGE%:latest'

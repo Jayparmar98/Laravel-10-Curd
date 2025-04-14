@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: api:latest
+          imagePullPolicy: IfNotPresent
+          args:
+            - php-fpm
+          env:
+            - name: APP_ENV
+              value: "development" # Or use a ConfigMap
+          ports:
+            - containerPort: 8080
+          workingDir: /var/www
+          volumeMounts:
+            - name: app-volume
+              mountPath: /var/www
+      volumes:
+        - name: app-volume
+          hostPath:
+            path: /absolute/path/to/your/codebase
+            type: Directory
