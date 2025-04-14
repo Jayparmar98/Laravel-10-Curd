@@ -46,8 +46,12 @@ RUN chmod -R 755 /var/www/storage/framework
 RUN chmod -R 755 /var/www/storage/framework/sessions
 RUN chmod -R 755 /var/www/bootstrap
 
-RUN chmod -R 755 /var/www/vendor
 RUN composer install
+
+#Verify autoload.php
+RUN ls -l /var/www/vendor/autoload.php 
+#Modified vender directory
+RUN chmod -R 755 /var/www/vendor
 
 # Adjust user permission & group
 RUN usermod --uid 1000 www-data
