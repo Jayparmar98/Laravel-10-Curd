@@ -12,12 +12,16 @@ pipeline {
             }
         }
 
-     
         stage('Build Docker Image') {
             steps {
                 script {
-                    def fullImageName = "${DOCKERHUB_REPO}:${IMAGE_TAG}"
+                    def imageName = "mLaravel-10-app"
+                    def imageTag = "latest"
+                    def fullImageName = "${imageName}:${imageTag}"
+
                     echo "Building Docker image: ${fullImageName}"
+
+                    // Build the Docker image
                     bat "docker build -t ${fullImageName} ."
                 }
             }
