@@ -6,40 +6,11 @@ pipeline {
     }
 
     stages {
-       stage('checkout') {
-                 steps {
-                      checkout scm
-                script { 
-                    env.TEST_EXECUTION = body["testexecution"]
-                    env.MAJOR_VERSION = body["major_version"]
-                    env.MINOR_VERSION = body["minor_version"]
-
-                           //env.TARGET_AWS_ACCOUNT = body["account"]
-                          //env.mode = "prd"
-                          //env.BUILD_AWS_ACCOUNT = sh ( script: "curl -s -S 'http://169.254.169.254/latest/dynamic/instance-identity/document/' | jq -r '.accountId'", returnStdout: true)
-                          //env.JENKINS_FQDN= sh (script: 'echo ${BUILD_URL/https:\\/\\/} | cut -d "/" -f1', returnStdout: true).trim()
-                          //env.CODE_AUTHOR = sh (script: "git log -1 --no-merges --format='%ae' ${GIT_COMMIT}", returnStdout: true).trim()    
-                    //env.CODE_MERGED = sh (script: "git log -1 --format='%ae' ${GIT_COMMIT}", returnStdout: true).trim()
-                    println "===================================================================="
-                        println "CHANGE_ID             : " + env.CHANGE_ID
-                        println "BRANCH_NAME           : " + env.BRANCH_NAME
-                        println "GIT_URL               : " + env.GIT_URL
-                        println "GIT_COMMIT            : " + env.GIT_COMMIT
-                        //println "BUILD_AWS_ACCOUNT_ID  : " + env.BUILD_AWS_ACCOUNT.trim()
-                    println "TARGET_AWS_ACCOUNT_ID : " + env.TARGET_AWS_ACCOUNT
-                        println "JENKINS_FQDN          : " + env.JENKINS_FQDN
-                        println "CHANGE_TARGET         : " + env.CHANGE_TARGET
-                        println "CHANGE_URL            : " + env.CHANGE_URL
-                    println "CODE_AUTHOR           : " + env.CODE_AUTHOR
-                    println "CODE_MERGED           : " + env.CODE_MERGED
-                    println "WORKSPACE           : " + env.WORKSPACE
-                    println "TEST_EXECUTION_STATUS           : " + env.TEST_EXECUTION
-                    
-                    println "===================================================================="
-                    }    
-                    
-                }    
+        stage('Checkout') {
+            steps {
+                git branch: 'develop', credentialsId: 'github', url: 'https://github.com/Jayparmar98/Laravel-10-Curd.git'
             }
+        }
 
     // stage('Build Docker Image') {
     //         steps {
