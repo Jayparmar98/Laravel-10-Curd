@@ -14,15 +14,15 @@ spec:
     spec:
       containers:
         - name: api
-          image: api:latest
+          image: jayparmar98/laravel-10-curd:0.6  # ✅ Correct image name
           imagePullPolicy: IfNotPresent
           args:
-            - php-fpm
+            - jayparmar98/laravel-10-curd:latest
           env:
             - name: APP_ENV
-              value: "development" # Or use a ConfigMap
+              value: "development"
           ports:
-            - containerPort: 8080
+            - containerPort: 9000  # ✅ php-fpm listens on port 9000 by default
           workingDir: /var/www
           volumeMounts:
             - name: app-volume
@@ -30,5 +30,5 @@ spec:
       volumes:
         - name: app-volume
           hostPath:
-            path: /absolute/path/to/your/codebase
-            type: Directory
+            path: /absolute/path/to/your/codebase  # 🔧 Replace with real path on host
+            type: DirectoryOrCreate
