@@ -42,11 +42,11 @@ pipeline {
           stage('Deploy with Docker Compose') {
              steps {
                  script {
-                    //  echo "Pulling updated Docker image..."
-                    //  bat "docker pull ${FULL_IMAGE}"
+                     echo "Pulling updated Docker image..."
+                     bat "docker pull ${FULL_IMAGE}"
 
-                    //  echo "Stopping any existing containers..."
-                    //  bat "docker-compose down"
+                     echo "Stopping any existing containers..."
+                     bat "docker-compose down"
 
                      echo "Starting containers with updated image..."
                      bat "docker-compose up -d"
